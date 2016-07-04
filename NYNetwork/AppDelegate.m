@@ -9,8 +9,8 @@
 #import "AppDelegate.h"
 #import "NYNetwork/NYNetworkConfig.h"
 
-//#define BaseUrl @"http://api.hoomxb.com"
-#define BaseUrl @"http://192.168.1.48:9001"
+#define BaseUrl @"http://api.hoomxb.com"
+//#define BaseUrl @"http://192.168.1.48:9001"
 
 @interface AppDelegate ()
 

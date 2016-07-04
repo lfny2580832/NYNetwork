@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D381CD1A59A92BA7D1DC7E0 /* libPods-NYNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2B15F88DC740A5992B0C8B /* libPods-NYNetwork.a */; };
 		4A0F45AB1D24D23300A2D7EF /* BannerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F45AA1D24D23300A2D7EF /* BannerAPI.m */; };
 		4A0F45AE1D24F9CA00A2D7EF /* LoginAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F45AD1D24F9CA00A2D7EF /* LoginAPI.m */; };
 		4A532D951D23859A00AFDE6B /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A532D891D23859A00AFDE6B /* AFHTTPSessionManager.m */; };
@@ -70,6 +71,9 @@
 		4AF74FC01D2519A6005455F6 /* FeedBackAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedBackAPI.m; sourceTree = "<group>"; };
 		4AF74FC21D252485005455F6 /* NYNetworkManager+DefaultMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NYNetworkManager+DefaultMethod.h"; sourceTree = "<group>"; };
 		4AF74FC31D252485005455F6 /* NYNetworkManager+DefaultMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NYNetworkManager+DefaultMethod.m"; sourceTree = "<group>"; };
+		8FA806264C47D9A4D9F4C9C0 /* Pods-NYNetwork.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NYNetwork.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NYNetwork/Pods-NYNetwork.debug.xcconfig"; sourceTree = "<group>"; };
+		E63245AD2F603DECE62EFA51 /* Pods-NYNetwork.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NYNetwork.release.xcconfig"; path = "Pods/Target Support Files/Pods-NYNetwork/Pods-NYNetwork.release.xcconfig"; sourceTree = "<group>"; };
+		ED2B15F88DC740A5992B0C8B /* libPods-NYNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NYNetwork.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,12 +81,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D381CD1A59A92BA7D1DC7E0 /* libPods-NYNetwork.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		37FB6602EECA2F738593ABD8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8FA806264C47D9A4D9F4C9C0 /* Pods-NYNetwork.debug.xcconfig */,
+				E63245AD2F603DECE62EFA51 /* Pods-NYNetwork.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		4A0F45A81D24D21A00A2D7EF /* Request */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +135,8 @@
 			children = (
 				4AD329D71D2257F000C4B37B /* NYNetwork */,
 				4AD329D61D2257F000C4B37B /* Products */,
+				37FB6602EECA2F738593ABD8 /* Pods */,
+				545A0EC955944CA45C39CB5F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -177,6 +193,14 @@
 			path = NYNetwork;
 			sourceTree = "<group>";
 		};
+		545A0EC955944CA45C39CB5F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ED2B15F88DC740A5992B0C8B /* libPods-NYNetwork.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -184,9 +208,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4AD329EC1D2257F000C4B37B /* Build configuration list for PBXNativeTarget "NYNetwork" */;
 			buildPhases = (
+				155333B6A6AFCC4D82A9D910 /* [CP] Check Pods Manifest.lock */,
 				4AD329D11D2257F000C4B37B /* Sources */,
 				4AD329D21D2257F000C4B37B /* Frameworks */,
 				4AD329D31D2257F000C4B37B /* Resources */,
+				DB39383B241C2EFC74177E79 /* [CP] Embed Pods Frameworks */,
+				2952A7E29E3EEA50B30FDA25 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -241,6 +268,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		155333B6A6AFCC4D82A9D910 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		2952A7E29E3EEA50B30FDA25 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NYNetwork/Pods-NYNetwork-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DB39383B241C2EFC74177E79 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NYNetwork/Pods-NYNetwork-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4AD329D11D2257F000C4B37B /* Sources */ = {
@@ -371,6 +446,7 @@
 		};
 		4AD329ED1D2257F000C4B37B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8FA806264C47D9A4D9F4C9C0 /* Pods-NYNetwork.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = NYNetwork/Info.plist;
@@ -382,6 +458,7 @@
 		};
 		4AD329EE1D2257F000C4B37B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E63245AD2F603DECE62EFA51 /* Pods-NYNetwork.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = NYNetwork/Info.plist;

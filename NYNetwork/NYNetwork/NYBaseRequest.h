@@ -10,11 +10,14 @@
 #import "AFNetworking.h"
 
 @class NYBaseRequest;
+@class NYHTTPConnection;
 
 //--------------------------定义方法序列化枚举，成功失败回调--------------------------
 typedef NS_ENUM(NSInteger, NYRequestMethod){
     NYRequestMethodGet = 0,
     NYRequestMethodPost,
+    NYRequestMethodPut,
+    NYRequestMethodDelete,
 };
 
 typedef NS_ENUM(NSInteger, NYRequestSerializerType){
@@ -42,6 +45,7 @@ typedef void (^FailureBlock)(NYBaseRequest *request, NSError *error);
 
 @interface NYBaseRequest : NSObject
 //-------------------------------request-------------------------------------
+@property (nonatomic, weak) NYHTTPConnection *connection;
 //请求方法 Get/Post
 @property (nonatomic, assign) NYRequestMethod requestMethod;
 //baseUrl之后的请求Url
@@ -66,6 +70,10 @@ typedef void (^FailureBlock)(NYBaseRequest *request, NSError *error);
 @property (nonatomic, assign, readonly) NSInteger responseStatusCode;
 //响应头
 @property (nonatomic, copy, readonly) NSDictionary *responseHeaderFieldValueDictionary;
+//回调成功内容
+@property (nonatomic, strong) id responseObject;
+//回调失败错误
+@property (nonatomic, strong) NSError *error;
 
 //--------------------------------callback----------------------------------
 //返回成功回调
@@ -80,7 +88,5 @@ typedef void (^FailureBlock)(NYBaseRequest *request, NSError *error);
 - (void)start;
 
 - (void)startWithSuccess:(SuccessBlock)success failure:(FailureBlock)failure;
-
-- (void)cancle;
 
 @end

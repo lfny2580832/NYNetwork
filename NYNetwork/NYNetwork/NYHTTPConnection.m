@@ -13,21 +13,20 @@
 
 #define Config [NYNetworkConfig sharedInstance]
 
-@implementation NYBaseRequest (NYHTTPConnection)
+//@implementation NYBaseRequest (NYHTTPConnection)
+//static const char kBaseRequestConnectionKey;
+//- (NYHTTPConnection *)connection
+//{
+//    return objc_getAssociatedObject(self, &kBaseRequestConnectionKey);
+//}
+//
+//- (void)setConnection:(NYHTTPConnection *)connection
+//{
+//    objc_setAssociatedObject(self, &kBaseRequestConnectionKey, connection, OBJC_ASSOCIATION_ASSIGN);
+//}
+//
+//@end
 
-static const char kBaseRequestConnectionKey;
-
-- (NYHTTPConnection *)connection
-{
-    return objc_getAssociatedObject(self, &kBaseRequestConnectionKey);
-}
-
-- (void)setConnection:(NYHTTPConnection *)connection
-{
-    objc_setAssociatedObject(self, &kBaseRequestConnectionKey, connection, OBJC_ASSOCIATION_ASSIGN);
-}
-
-@end
 
 @interface NYHTTPConnection ()
 
@@ -39,11 +38,13 @@ static const char kBaseRequestConnectionKey;
 
 @property (nonatomic, copy) ConnectionFailureBlock failture;
 
+@property (strong, nonatomic) NSMutableDictionary<NSNumber *, NSURLSessionTask *> *dispatchTable;
+
 @end
 
 @implementation NYHTTPConnection
 
-+ (instancetype)connection
++ (instancetype)init
 {
     return [[self alloc]init];
 }
@@ -64,14 +65,13 @@ static const char kBaseRequestConnectionKey;
     return headers;
 }
 
+//配置及处理sessionManager
 - (void)connectWithRequest:(NYBaseRequest *)request success:(ConnectionSuccessBlock)success failure:(ConnectionFailureBlock)failure
 {
-    self.request = request;
     self.success = success;
     self.failture = failure;
     
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]init];
-    
 //-------------------------------------------request----------------------------------------
     if (request.requestSerializerType == NYRequestSerializerTypeHTTP) {
         manager.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -104,14 +104,17 @@ static const char kBaseRequestConnectionKey;
     }
     NSDictionary *parameters = request.requestArgument;
     
+//------------------------------------------AFHTTPSessionManage---------------------------
     NSURLSessionDataTask *task = nil;
     switch (request.requestMethod) {
         case NYRequestMethodGet:
         {
             task = [manager GET:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 [self requestHandleSuccess:request responseObject:responseObject];
+                [self.dispatchTable removeObjectForKey:@(task.taskIdentifier)];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 [self requestHandleFailure:request error:error];
+                [self.dispatchTable removeObjectForKey:@(task.taskIdentifier)];
             }];
         }
             break;
@@ -119,15 +122,41 @@ static const char kBaseRequestConnectionKey;
         {
             task = [manager POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 [self requestHandleSuccess:request responseObject:responseObject];
+                [self.dispatchTable removeObjectForKey:@(task.taskIdentifier)];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 [self requestHandleFailure:request error:error];
+                [self.dispatchTable removeObjectForKey:@(task.taskIdentifier)];
             }];
         }
+            break;
+        case NYRequestMethodPut:
+        {
+            task = [manager PUT:urlString parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                [self requestHandleSuccess:request responseObject:responseObject];
+                [self.dispatchTable removeObjectForKey:@(task.taskIdentifier)];
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                [self requestHandleFailure:request error:error];
+                [self.dispatchTable removeObjectForKey:@(task.taskIdentifier)];
+            }];
+        }
+            break;
+        case NYRequestMethodDelete:
+        {
+            task = [manager DELETE:urlString parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                [self requestHandleSuccess:request responseObject:responseObject];
+                [self.dispatchTable removeObjectForKey:@(task.taskIdentifier)];
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                [self requestHandleFailure:request error:error];
+                [self.dispatchTable removeObjectForKey:@(task.taskIdentifier)];
+            }];
+        }
+            break;
         default:{
             NSLog(@"unsupported request method");
         }
             break;
     }
+    [self.dispatchTable setObject:task forKey:@(task.taskIdentifier)];
     self.task = task;
     request.connection = self;
 }
@@ -144,6 +173,15 @@ static const char kBaseRequestConnectionKey;
     if (self.failture) {
         self.failture(self,error);
     }
+}
+
+#pragma mark Get/Set Method
+- (NSDictionary *)dispatchTable
+{
+    if (!_dispatchTable) {
+        _dispatchTable = [NSMutableDictionary dictionary];
+    }
+    return _dispatchTable;
 }
 
 @end

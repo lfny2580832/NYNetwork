@@ -11,15 +11,6 @@
 
 @class NYNetworkManager;
 
-@interface NYBaseRequest (NYNetworkManager)
-
-@property (nonatomic, strong, readonly) id responseObject;
-
-@property (nonatomic, strong, readonly) NSError *error;
-
-@end
-
-
 @interface NYNetworkManager : NSObject
 
 + (instancetype)sharedManager;

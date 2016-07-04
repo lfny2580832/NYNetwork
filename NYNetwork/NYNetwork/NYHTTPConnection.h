@@ -14,19 +14,11 @@
 typedef void (^ConnectionSuccessBlock)(NYHTTPConnection *connection, id responseJsonObject);
 typedef void (^ConnectionFailureBlock)(NYHTTPConnection *connection, NSError *error);
 
-@interface NYBaseRequest (NYHTTPConnection)
 
-@property (nonatomic, assign, readonly) NYHTTPConnection *connection;
-
-@end
 
 @interface NYHTTPConnection : NSObject
 
-@property (nonatomic, strong, readonly) NYBaseRequest *request;
-
 @property (nonatomic, strong, readonly) NSURLSessionDataTask *task;
-
-+ (instancetype)connection;
 
 - (void)connectWithRequest:(NYBaseRequest *)request success:(ConnectionSuccessBlock)success failure:(ConnectionFailureBlock)failure;
 

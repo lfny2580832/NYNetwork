@@ -10,6 +10,7 @@
 #import "BannerAPI.h"
 #import "LoginAPI.h"
 #import "FeedBackAPI.h"
+#import <FBRetainCycleDetector/FBRetainCycleDetector.h>
 
 #import <CommonCrypto/CommonDigest.h>
 
@@ -24,7 +25,7 @@
     
     UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(20, 20, 200, 200)];
     btn.backgroundColor = [UIColor redColor];
-    [btn addTarget:self action:@selector(feedBack) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:@selector(testMemeory) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
 
 }
@@ -38,6 +39,10 @@
     } failure:^(NYBaseRequest *request, NSError *error) {
         NSLog(@"failure:%@",error);
     }];
+    FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
+    [detector addCandidate:api];
+    NSSet *retainCycles = [detector findRetainCycles];
+    NSLog(@"api %@", retainCycles);
 }
 
 - (void)getBanner
@@ -50,6 +55,10 @@
         NSLog(@"failure:%@",error);
 
     }];
+    FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
+    [detector addCandidate:api];
+    NSSet *retainCycles = [detector findRetainCycles];
+    NSLog(@"api %@", retainCycles);
 }
 
 - (void)feedBack
@@ -78,5 +87,22 @@
     }
     
     return outputString;
+}
+
+- (void)testMemeory
+{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer=[AFJSONRequestSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+    NSString *url = @"http://api.hoomxb.com/banners";
+    NSDictionary *dict = [NSDictionary new];
+    
+    
+    [manager GET:url parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        NSLog(@"failure:%@",error);
+
+    }];
 }
 @end

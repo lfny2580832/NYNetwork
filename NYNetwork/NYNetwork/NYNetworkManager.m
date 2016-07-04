@@ -8,29 +8,8 @@
 
 #import "NYNetworkManager.h"
 #import "NYHTTPConnection.h"
-
 #import <objc/runtime.h>
-
-@implementation NYBaseRequest (NYNetworkManager)
-
-static const char kBaseRequestResponseModelKey;
-- (id)responseObject{
-    return objc_getAssociatedObject(self, &kBaseRequestResponseModelKey);
-}
-- (void)setResponseObject:(id)responseObject{
-    objc_setAssociatedObject(self, &kBaseRequestResponseModelKey, responseObject, OBJC_ASSOCIATION_RETAIN);
-}
-
-static const char kBaseRequestErrorKey;
-- (NSError *)error{
-    return objc_getAssociatedObject(self, &kBaseRequestErrorKey);
-}
-- (void)setError:(NSError *)error{
-    objc_setAssociatedObject(self, &kBaseRequestErrorKey, error, OBJC_ASSOCIATION_RETAIN);
-}
-
-@end
-
+#import <FBRetainCycleDetector/FBRetainCycleDetector.h>
 
 @implementation NYNetworkManager
 
@@ -47,23 +26,28 @@ static const char kBaseRequestErrorKey;
 - (void)addRequest:(NYBaseRequest *)request
 {
     __weak typeof(self) weakSelf = self;
-    [[NYHTTPConnection connection] connectWithRequest:request success:^(NYHTTPConnection *connection, id responseJsonObject) {
-        [weakSelf processConnection:connection withResponseJsonObject:responseJsonObject];
+    NYHTTPConnection *connection =
+    [[NYHTTPConnection alloc]init];
+    [connection connectWithRequest:request success:^(NYHTTPConnection *connection, id responseJsonObject) {
+        [weakSelf processConnection:connection withRequest:request responseJsonObject:responseJsonObject];
     } failure:^(NYHTTPConnection *connection, NSError *error) {
-        [weakSelf processConnection:connection withError:error];
+        [weakSelf processConnection:connection withRequest:request error:error];
     }];
+    FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
+    [detector addCandidate:connection];
+    NSSet *retainCycles = [detector findRetainCycles];
+    NSLog(@"connection %@", retainCycles);
+    
 }
 
-- (void)processConnection:(NYHTTPConnection *)connection withResponseJsonObject:(id)responseJsonObject
+- (void)processConnection:(NYHTTPConnection *)connection withRequest:(NYBaseRequest *)request responseJsonObject:(id)responseJsonObject
 {
-    NYBaseRequest *request = connection.request;
     request.responseObject = responseJsonObject;
     [self callBackRequestSuccess:request];
 }
 
-- (void)processConnection:(NYHTTPConnection *)connection withError:(NSError *)error
+- (void)processConnection:(NYHTTPConnection *)connection withRequest:(NYBaseRequest *)request error:(NSError *)error
 {
-    NYBaseRequest *request = connection.request;
     request.error = error;
     [self callBackRequestFailure:request];
 }
