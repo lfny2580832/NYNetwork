@@ -17,4 +17,6 @@
 
 - (void)addRequest:(NYBaseRequest *)request;
 
+- (void)addRequest:(NYBaseRequest *)request withHUD:(NSString *)content;
+
 @end

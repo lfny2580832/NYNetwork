@@ -25,7 +25,7 @@
     config.token = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYXN0TG9naW4iOiIyMDE2MDYzMDE3MjAxMyIsInVpZCI6NTl9.0Uz-4H792iAO-vO_AVW4Ud3YktcME4f0LSls_NFRqFA";
     config.version = @"1.0";
     config.baseUrl = BaseUrl;
-
+    
     return YES;
 }
 

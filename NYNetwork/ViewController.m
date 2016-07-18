@@ -25,7 +25,7 @@
     
     UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(20, 20, 200, 200)];
     btn.backgroundColor = [UIColor redColor];
-    [btn addTarget:self action:@selector(testMemeory) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:@selector(getBanner) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
 
 }
@@ -39,26 +39,25 @@
     } failure:^(NYBaseRequest *request, NSError *error) {
         NSLog(@"failure:%@",error);
     }];
-    FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
-    [detector addCandidate:api];
-    NSSet *retainCycles = [detector findRetainCycles];
-    NSLog(@"api %@", retainCycles);
+//    FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
+//    [detector addCandidate:api];
+//    NSSet *retainCycles = [detector findRetainCycles];
+//    NSLog(@"api %@", retainCycles);
 }
 
 - (void)getBanner
 {
     BannerAPI *api = [[BannerAPI alloc]init];
-    [api startWithSuccess:^(NYBaseRequest *request, id responseObject) {
-        NSLog(@"success: %@",responseObject);
-
+    [api startWithHUDStr:@"加载中" Success:^(NYBaseRequest *request, id responseObject) {
+        NSLog(@"shit");
     } failure:^(NYBaseRequest *request, NSError *error) {
-        NSLog(@"failure:%@",error);
-
+        NSLog(@"fuck");
     }];
-    FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
-    [detector addCandidate:api];
-    NSSet *retainCycles = [detector findRetainCycles];
-    NSLog(@"api %@", retainCycles);
+    
+//    FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
+//    [detector addCandidate:api];
+//    NSSet *retainCycles = [detector findRetainCycles];
+//    NSLog(@"api %@", retainCycles);
 }
 
 - (void)feedBack
@@ -87,6 +86,33 @@
     }
     
     return outputString;
+}
+
+- (void)lalalalal
+{
+    for (NSInteger i = 0; i < 100; i ++) {
+        @autoreleasepool {
+            [self testNSUrlsession];
+
+        }
+    }
+}
+
+- (void)testNSUrlsession
+{
+    NSURL *url = [NSURL URLWithString:@"http://api.hoomxb.com/banners"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"GET"];
+    NSString *bodyStr = @"";
+    NSData *bodyData = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
+    [request setHTTPBody:bodyData];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+
+        [task cancel];
+        [session finishTasksAndInvalidate];
+    }];
+    [task resume];
 }
 
 - (void)testMemeory

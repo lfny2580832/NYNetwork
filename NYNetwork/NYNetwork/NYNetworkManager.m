@@ -8,7 +8,8 @@
 
 #import "NYNetworkManager.h"
 #import "NYHTTPConnection.h"
-#import <objc/runtime.h>
+#import "NYProgressHUD.h"
+
 #import <FBRetainCycleDetector/FBRetainCycleDetector.h>
 
 @implementation NYNetworkManager
@@ -25,19 +26,21 @@
 
 - (void)addRequest:(NYBaseRequest *)request
 {
-    __weak typeof(self) weakSelf = self;
-    NYHTTPConnection *connection =
-    [[NYHTTPConnection alloc]init];
+    [self addRequest:request withHUD:nil];
+}
+
+- (void)addRequest:(NYBaseRequest *)request withHUD:(NSString *)content
+{
+    NYProgressHUD *hud = (content.length)? [NYProgressHUD new]:nil;
+    [hud showAnimationWithText:content];
+    NYHTTPConnection *connection = [[NYHTTPConnection alloc]init];
     [connection connectWithRequest:request success:^(NYHTTPConnection *connection, id responseJsonObject) {
-        [weakSelf processConnection:connection withRequest:request responseJsonObject:responseJsonObject];
+        [hud hide];
+        [self processConnection:connection withRequest:request responseJsonObject:responseJsonObject];
     } failure:^(NYHTTPConnection *connection, NSError *error) {
-        [weakSelf processConnection:connection withRequest:request error:error];
+        [hud hide];
+        [self processConnection:connection withRequest:request error:error];
     }];
-    FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
-    [detector addCandidate:connection];
-    NSSet *retainCycles = [detector findRetainCycles];
-    NSLog(@"connection %@", retainCycles);
-    
 }
 
 - (void)processConnection:(NYHTTPConnection *)connection withRequest:(NYBaseRequest *)request responseJsonObject:(id)responseJsonObject

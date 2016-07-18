@@ -28,6 +28,7 @@
 		4AD329FC1D225BA600C4B37B /* NYBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD329FB1D225BA600C4B37B /* NYBaseRequest.m */; };
 		4AF74FC11D2519A6005455F6 /* FeedBackAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF74FC01D2519A6005455F6 /* FeedBackAPI.m */; };
 		4AF74FC41D252485005455F6 /* NYNetworkManager+DefaultMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF74FC31D252485005455F6 /* NYNetworkManager+DefaultMethod.m */; };
+		4AFBCCF61D39D25B0064633D /* NYProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBCCF51D39D25B0064633D /* NYProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +72,8 @@
 		4AF74FC01D2519A6005455F6 /* FeedBackAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedBackAPI.m; sourceTree = "<group>"; };
 		4AF74FC21D252485005455F6 /* NYNetworkManager+DefaultMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NYNetworkManager+DefaultMethod.h"; sourceTree = "<group>"; };
 		4AF74FC31D252485005455F6 /* NYNetworkManager+DefaultMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NYNetworkManager+DefaultMethod.m"; sourceTree = "<group>"; };
+		4AFBCCF41D39D25B0064633D /* NYProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYProgressHUD.h; sourceTree = "<group>"; };
+		4AFBCCF51D39D25B0064633D /* NYProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYProgressHUD.m; sourceTree = "<group>"; };
 		8FA806264C47D9A4D9F4C9C0 /* Pods-NYNetwork.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NYNetwork.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NYNetwork/Pods-NYNetwork.debug.xcconfig"; sourceTree = "<group>"; };
 		E63245AD2F603DECE62EFA51 /* Pods-NYNetwork.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NYNetwork.release.xcconfig"; path = "Pods/Target Support Files/Pods-NYNetwork/Pods-NYNetwork.release.xcconfig"; sourceTree = "<group>"; };
 		ED2B15F88DC740A5992B0C8B /* libPods-NYNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NYNetwork.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +154,8 @@
 		4AD329D71D2257F000C4B37B /* NYNetwork */ = {
 			isa = PBXGroup;
 			children = (
+				4AFBCCF41D39D25B0064633D /* NYProgressHUD.h */,
+				4AFBCCF51D39D25B0064633D /* NYProgressHUD.m */,
 				4AD329DB1D2257F000C4B37B /* AppDelegate.h */,
 				4AD329DC1D2257F000C4B37B /* AppDelegate.m */,
 				4AD329DE1D2257F000C4B37B /* ViewController.h */,
@@ -325,6 +330,7 @@
 				4AD329F61D225B4200C4B37B /* NYHTTPConnection.m in Sources */,
 				4A532D961D23859A00AFDE6B /* AFNetworkReachabilityManager.m in Sources */,
 				4AD329E01D2257F000C4B37B /* ViewController.m in Sources */,
+				4AFBCCF61D39D25B0064633D /* NYProgressHUD.m in Sources */,
 				4AD329FC1D225BA600C4B37B /* NYBaseRequest.m in Sources */,
 				4AD329DD1D2257F000C4B37B /* AppDelegate.m in Sources */,
 				4AD329F91D225B5100C4B37B /* NYNetworkManager.m in Sources */,

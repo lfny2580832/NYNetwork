@@ -89,4 +89,6 @@ typedef void (^FailureBlock)(NYBaseRequest *request, NSError *error);
 
 - (void)startWithSuccess:(SuccessBlock)success failure:(FailureBlock)failure;
 
+- (void)startWithHUDStr:(NSString *)string Success:(SuccessBlock)success failure:(FailureBlock)failure;
+
 @end
